@@ -23,9 +23,9 @@
 		16DB67F32B42246C00263877 /* APIClientRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB67F22B42246C00263877 /* APIClientRepositoryProtocol.swift */; };
 		16DB67F52B4225E700263877 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB67F42B4225E700263877 /* APIClient.swift */; };
 		16DB67F82B42321000263877 /* APIClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB67F72B42321000263877 /* APIClientRepository.swift */; };
-		16DB67FA2B42346600263877 /* Extentions + URLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB67F92B42346600263877 /* Extentions + URLResponse.swift */; };
 		16DB67FD2B4236B900263877 /* LoggerStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB67FC2B4236B900263877 /* LoggerStatus.swift */; };
 		16DB67FF2B42381100263877 /* ApiEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB67FE2B42381100263877 /* ApiEndpoint.swift */; };
+		16EBFED32B44BF3500F6B99E /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EBFED22B44BF3500F6B99E /* DataProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,9 +47,9 @@
 		16DB67F22B42246C00263877 /* APIClientRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientRepositoryProtocol.swift; sourceTree = "<group>"; };
 		16DB67F42B4225E700263877 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		16DB67F72B42321000263877 /* APIClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientRepository.swift; sourceTree = "<group>"; };
-		16DB67F92B42346600263877 /* Extentions + URLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extentions + URLResponse.swift"; sourceTree = "<group>"; };
 		16DB67FC2B4236B900263877 /* LoggerStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerStatus.swift; sourceTree = "<group>"; };
 		16DB67FE2B42381100263877 /* ApiEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoint.swift; sourceTree = "<group>"; };
+		16EBFED22B44BF3500F6B99E /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,8 +189,8 @@
 		16BD7FB22B3E29C600B28D77 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				16EBFED42B44F22000F6B99E /* Logger */,
 				16DB67ED2B4223DD00263877 /* Protocols */,
-				16BD7FB42B3E29DD00B28D77 /* Logger.swift */,
 				16DB67FB2B42346B00263877 /* Extentions */,
 				16BD7FB32B3E29CC00B28D77 /* Models */,
 			);
@@ -209,6 +209,7 @@
 		16DB67EB2B42053700263877 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				16EBFED52B44F3AB00F6B99E /* FileManager */,
 				16DB67F62B4231F900263877 /* Repository */,
 				16DB67EC2B42053E00263877 /* Network */,
 			);
@@ -245,9 +246,24 @@
 		16DB67FB2B42346B00263877 /* Extentions */ = {
 			isa = PBXGroup;
 			children = (
-				16DB67F92B42346600263877 /* Extentions + URLResponse.swift */,
 			);
 			path = Extentions;
+			sourceTree = "<group>";
+		};
+		16EBFED42B44F22000F6B99E /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				16BD7FB42B3E29DD00B28D77 /* Logger.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		16EBFED52B44F3AB00F6B99E /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				16EBFED22B44BF3500F6B99E /* DataProvider.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,9 +347,9 @@
 				16BB9B132B437F8B00437710 /* LaunchViewModel.swift in Sources */,
 				16DB67F32B42246C00263877 /* APIClientRepositoryProtocol.swift in Sources */,
 				16DB67F82B42321000263877 /* APIClientRepository.swift in Sources */,
-				16DB67FA2B42346600263877 /* Extentions + URLResponse.swift in Sources */,
 				16BD135D2B433C0D000F3BCC /* HomeViewModel.swift in Sources */,
 				16BD13582B432BE4000F3BCC /* ApiHelper.swift in Sources */,
+				16EBFED32B44BF3500F6B99E /* DataProvider.swift in Sources */,
 				16BD7FB72B3E519800B28D77 /* LogModel.swift in Sources */,
 				16BD7FB52B3E29DD00B28D77 /* Logger.swift in Sources */,
 				16DB67FD2B4236B900263877 /* LoggerStatus.swift in Sources */,

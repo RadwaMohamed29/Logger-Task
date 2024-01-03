@@ -37,25 +37,26 @@ class Logger{
     
 
     // MARK: - Info
-    static func info(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function, isLoggingEnabled: Bool = true) {
-        let context = Context(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: "\(UIApplication.shared.applicationState.rawValue)", className: "\(self)", file: filename, line: line, funcName: funcName, logLevel: "")
+    static func info(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function, isLoggingEnabled: Bool = true) -> LoggerContext {
+        let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: "\(UIApplication.shared.applicationState.rawValue)", className: "\(self)", file: filename, line: line, funcName: funcName, logLevel: "")
         Logger.handleLog(level: .info,  isLoggingEnabled: isLoggingEnabled, context: context)
+        return context
         }
     
     // MARK: - Debug
     static func debug(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function, isLoggingEnabled: Bool = true) {
-        let context = Context(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: "\(UIApplication.shared.applicationState.rawValue)", className: "\(self)", file: filename, line: line, funcName: funcName, logLevel: "")
+        let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: "\(UIApplication.shared.applicationState.rawValue)", className: "\(self)", file: filename, line: line, funcName: funcName, logLevel: "")
         Logger.handleLog(level: .debug,  isLoggingEnabled: isLoggingEnabled, context: context)
         }
     
     // MARK: - Error
     static func error(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function, isLoggingEnabled: Bool = true) {
-        let context = Context(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: "\(UIApplication.shared.applicationState.rawValue)", className: "\(self)", file: filename, line: line, funcName: funcName, logLevel: "")
+        let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: "\(UIApplication.shared.applicationState.rawValue)", className: "\(self)", file: filename, line: line, funcName: funcName, logLevel: "")
         Logger.handleLog(level: .error,  isLoggingEnabled: isLoggingEnabled, context: context)
         }
     
     /// A Custom Logger Handle Print  logging data in debug mode only
-    fileprivate static func handleLog(level: LogLevel, isLoggingEnabled: Bool, context: Context){
+    fileprivate static func handleLog(level: LogLevel, isLoggingEnabled: Bool, context: LoggerContext){
         let logComponents = ["\(level.prefix) "]
         var fullString = logComponents.joined(separator: " ")
         

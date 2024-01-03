@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Context{
-    let isMainThread: Bool
-    let date: String
-    let message: String
-    let appState: String
-    let className: String
-    let file: String
-    let line: Int
-    let funcName: String
-    let logLevel: String
+struct LoggerContext: Codable{
+    let isMainThread: Bool?
+    let date: String?
+    let message: String?
+    let appState: String?
+    let className: String?
+    let file: String?
+    let line: Int?
+    let funcName: String?
+    let logLevel: String?
 }

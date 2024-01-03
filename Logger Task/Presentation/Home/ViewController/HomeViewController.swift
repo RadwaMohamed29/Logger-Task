@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
             bindViewModel()
         }
     }
-    var loggerStatus: Bool = false
+    var loggerStatus: Bool = true
     private let floatingButton: UIButton = {
        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         button.backgroundColor = .systemIndigo
@@ -37,15 +37,15 @@ class HomeViewController: UIViewController {
         view.addSubview(floatingButton)
        viewModel = HomeViewModel()
         
-        Timer.scheduledTimer(timeInterval: 3600.0, target: self, selector: #selector(sayHello), userInfo: nil, repeats: true)
-        
         floatingButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         
         /// hide floating button when Logger disabled
         if loggerStatus{
             floatingButton.isHidden = false
+            Timer.scheduledTimer(timeInterval: 3600.0, target: self, selector: #selector(sayHello), userInfo: nil, repeats: true)
         }else{
             floatingButton.isHidden = true
+            DataProvider.shared.delete()
         }
     }
     
@@ -59,12 +59,12 @@ class HomeViewController: UIViewController {
     //MARK: - Logs will be synced with the server every 1 hour.
     @objc func sayHello()
     {
-        Logger.info("From server every one houre")
+        DataProvider.shared.create(note: Logger.info("saved every 1 hour"))
     }
  
     //MARK: - Users can force sync the logs through a floating button
     @objc private func didTapButton(){
-        Logger.info("Force sync")
+        DataProvider.shared.create(note: Logger.info("Floating Button"))
     }
     
     private func bindViewModel() {

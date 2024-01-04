@@ -10,5 +10,5 @@ import Combine
 
 protocol APIClientRepositoryProtocol {
     func getLoggerStatus<T: Decodable>(endpoint: ApiEndpoint, type: T.Type) -> Future<T, Error>
- //   func saveLoggerData<D: Decodable, E: Encodable>(from endpoint: ApiEndpoint, with body: E) async throws -> D
+    func uploadFile<T: Decodable>(fileURL: URL, apiURL: String, responseType: T.Type) -> AnyPublisher<T, Error>
 }

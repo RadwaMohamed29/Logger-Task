@@ -60,17 +60,19 @@ class HomeViewController: UIViewController {
     @objc func sayHello()
     {
         DataProvider.shared.create(note: Logger.info("saved every 1 hour"))
+        viewModel?.uploadFile()
     }
  
     //MARK: - Users can force sync the logs through a floating button
     @objc private func didTapButton(){
         DataProvider.shared.create(note: Logger.info("Floating Button"))
+        viewModel?.uploadFile()
     }
     
     private func bindViewModel() {
             viewModel?.dataPublisher
                 .sink { data in
-                    
+                    Swift.print("will print success response")
                 }
                 .store(in: &subscriptions)
         }

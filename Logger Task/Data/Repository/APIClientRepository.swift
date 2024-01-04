@@ -11,7 +11,6 @@ import Combine
 // MARK: - APIClientRepository -
 final class APIClientRepository: APIClientRepositoryProtocol {
     
-    
     // MARK: - Properties -
     private var apiClient: APIClientProtocol
     
@@ -24,12 +23,7 @@ final class APIClientRepository: APIClientRepositoryProtocol {
     func getLoggerStatus<T>(endpoint: ApiEndpoint, type: T.Type) -> Future<T, Error> where T : Decodable {
         apiClient.getLoggerStatus(endpoint: endpoint, type: type)
     }
-//    func getLoggerStatus<D>(from endpoint: ApiEndpoint) async throws -> D where D : Decodable {
-//        try await apiClient.getLoggerStatus(from: endpoint)
-//    }
-//
-//    func saveLoggerData<D, E>(from endpoint: ApiEndpoint, with body: E) async throws -> D where D : Decodable, E : Encodable {
-//        try await apiClient.saveLoggerData(from: endpoint, with: body)
-//    }
-    
+    func uploadFile<T>(fileURL: URL, apiURL: String, responseType: T.Type) -> AnyPublisher<T, Error> where T : Decodable {
+        apiClient.uploadFile(fileURL: fileURL, apiURL: apiURL, responseType: responseType)
+    }
 }

@@ -41,6 +41,9 @@ class DataProvider: ObservableObject {
         Swift.print("path: \(dataSourceURL)")
     }
     
+    func filePath() -> URL{
+        return dataSourceURL
+    }
     
     func delete() {
         do {

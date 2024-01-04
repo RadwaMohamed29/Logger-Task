@@ -34,8 +34,9 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         view.addSubview(floatingButton)
-       viewModel = HomeViewModel()
+        viewModel = HomeViewModel()
         
         floatingButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         
@@ -59,14 +60,14 @@ class HomeViewController: UIViewController {
     //MARK: - Logs will be synced with the server every 1 hour.
     @objc func sayHello()
     {
-        DataProvider.shared.create(note: Logger.info("saved every 1 hour"))
-        viewModel?.uploadFile()
+        Logger.info("saved every 1 hour")
+     //   viewModel?.uploadFile()
     }
  
     //MARK: - Users can force sync the logs through a floating button
     @objc private func didTapButton(){
-        DataProvider.shared.create(note: Logger.info("Floating Button"))
-        viewModel?.uploadFile()
+        Logger.info("Floating Button")
+     //   viewModel?.uploadFile()
     }
     
     private func bindViewModel() {

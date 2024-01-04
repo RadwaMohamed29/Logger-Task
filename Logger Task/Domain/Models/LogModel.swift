@@ -16,5 +16,4 @@ struct LoggerContext: Codable{
     let file: String
     let line: Int
     let funcName: String
-    let logLevel: String
 }

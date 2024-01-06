@@ -17,3 +17,8 @@ struct LoggerContext: Codable{
     let line: Int
     let funcName: String
 }
+
+struct BaseModel: Codable{
+    let success: Bool?
+    
+}

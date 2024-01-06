@@ -10,8 +10,7 @@ import Combine
 
 protocol APIClientProtocol {
     func getLoggerStatus<T: Decodable>(endpoint: ApiEndpoint, type: T.Type) -> Future<T, Error>
-    func uploadFile<T: Decodable>(fileURL: URL, apiURL: String, responseType: T.Type) -> AnyPublisher<T, Error>
-}
+    func uploadFile<T: Decodable>(fileURL: URL, endPoint: ApiEndpoint, responseType: T.Type) -> AnyPublisher<T, Error>}
     
     // MARK: - APIClient -
     final class APIClient: APIClientProtocol {
@@ -148,8 +147,8 @@ protocol APIClientProtocol {
 //            }
 //
         
-        func uploadFile<T: Decodable>(fileURL: URL, apiURL: String, responseType: T.Type) -> AnyPublisher<T, Error> {
-            guard var request = createMultipartRequest(apiURL: apiURL, fileURL: fileURL) else {
+        func uploadFile<T: Decodable>(fileURL: URL, endPoint: ApiEndpoint, responseType: T.Type) -> AnyPublisher<T, Error> {
+            guard let request = createMultipartRequest(endPoint: endPoint, fileURL: fileURL) else {
                 return Fail(error: ApiError.invalidPath).eraseToAnyPublisher()
             }
 
@@ -172,30 +171,38 @@ protocol APIClientProtocol {
                 .eraseToAnyPublisher()
         }
 
-        private func createMultipartRequest(apiURL: String, fileURL: URL) -> URLRequest? {
-            var request = URLRequest(url: URL(string: apiURL)!)
-            request.httpMethod = "POST"
-
-            let boundary = UUID().uuidString
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-
-            guard let fileData = try? Data(contentsOf: fileURL) else {
+        private func createMultipartRequest(endPoint: ApiEndpoint, fileURL: URL) -> URLRequest? {
+            guard let url = URL(string: ( ApiHelper.baseURL.appending(endPoint.path))) else {
+                    print(ApiError.invalidPath)
                 return nil
-            }
-
-            var body = Data()
-            
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileURL.lastPathComponent)\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
-            body.append(fileData)
-            body.append("\r\n".data(using: .utf8)!)
-            body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-
-            request.httpBody = body
-
-            return request
-        }
+                    }
+                    var request = URLRequest(url: url )
+                    
+                    
+                    request.httpMethod = endPoint.method.rawValue
+                    
+                    let boundary = UUID().uuidString
+                    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+                    
+                    guard let fileData = try? Data(contentsOf: fileURL) else {
+                        return nil
+                    }
+                    
+                    var body = Data()
+                    
+                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                    body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileURL.lastPathComponent)\"\r\n".data(using: .utf8)!)
+                    body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                    body.append(fileData)
+                    body.append("\r\n".data(using: .utf8)!)
+                    body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+                    
+                    request.httpBody = body
+                    
+                    
+                    
+                    return request
+                }
 }
 
 

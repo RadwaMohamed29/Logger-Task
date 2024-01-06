@@ -10,7 +10,7 @@ import Combine
 
 protocol HomeViewModelProtocol{
     func uploadFile()
-    var dataPublisher: AnyPublisher<LoggerContext, Never>{get}
+    var dataPublisher: AnyPublisher<BaseModel, Never>{get}
 }
 
 
@@ -24,17 +24,17 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
     init(repository: APIClientRepositoryProtocol = APIClientRepository()) {
         self.repository = repository
     }
-    @Published var context:LoggerContext?
+    @Published var context:BaseModel?
     private var cancellables = Set<AnyCancellable>()
     // custom PassthroughSubject
-    private let dataSubject = PassthroughSubject<LoggerContext, Never>()
+    private let dataSubject = PassthroughSubject<BaseModel, Never>()
     // Expose the subject as AnyPublisher
-    var dataPublisher: AnyPublisher<LoggerContext, Never>{
+    var dataPublisher: AnyPublisher<BaseModel, Never>{
         return dataSubject.eraseToAnyPublisher()
 
     }
     func uploadFile() {
-        repository.uploadFile(fileURL: DataProvider.shared.filePath(), apiURL: " ", responseType: LoggerContext.self)
+        repository.uploadFile(fileURL: DataProvider.shared.filePath(), endPoint: .saveLoggerData , responseType: BaseModel.self)
             .sink { completion in
                 switch completion {
                 case .failure(let err):
@@ -45,6 +45,7 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
             }
             receiveValue: { [weak self] response in
                 self?.dataSubject.send(response)
+                print("Done \(response)")
             }
             .store(in: &cancellables)
         }

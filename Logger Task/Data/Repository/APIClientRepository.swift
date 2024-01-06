@@ -23,7 +23,7 @@ final class APIClientRepository: APIClientRepositoryProtocol {
     func getLoggerStatus<T>(endpoint: ApiEndpoint, type: T.Type) -> Future<T, Error> where T : Decodable {
         apiClient.getLoggerStatus(endpoint: endpoint, type: type)
     }
-    func uploadFile<T>(fileURL: URL, apiURL: String, responseType: T.Type) -> AnyPublisher<T, Error> where T : Decodable {
-        apiClient.uploadFile(fileURL: fileURL, apiURL: apiURL, responseType: responseType)
+    func uploadFile<T: Decodable>(fileURL: URL, endPoint: ApiEndpoint, responseType: T.Type) -> AnyPublisher<T, Error> {
+        apiClient.uploadFile(fileURL: fileURL, endPoint: endPoint, responseType: responseType)
     }
 }

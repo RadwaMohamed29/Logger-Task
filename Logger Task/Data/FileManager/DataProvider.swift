@@ -12,7 +12,7 @@ class DataProvider: ObservableObject {
     // MARK: - Propeties
     static let shared = DataProvider()
     private let dataSourceURL: URL
-    @Published var allLoges = [LoggerContext]()
+    private var allLoges = [LoggerContext]()
     
     // MARK: - Life Cycle
     init() {
@@ -38,7 +38,7 @@ class DataProvider: ObservableObject {
     func create(log: LoggerContext) {
         allLoges.insert(log, at: 0)
         saveLogs()
-        Logger.info("File Path: \(dataSourceURL)")
+        NSLog("path: \(dataSourceURL)")
     }
     
     func filePath() -> URL{

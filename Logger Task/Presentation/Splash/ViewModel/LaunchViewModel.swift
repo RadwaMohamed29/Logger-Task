@@ -27,9 +27,7 @@ final class LaunchViewModel:LaunchViewModelProtocol, ObservableObject{
     }
     @Published var loggerStatus:LoggerStatus?
     private var cancellables = Set<AnyCancellable>()
-    // custom PassthroughSubject
     private let dataSubject = PassthroughSubject<LoggerStatus, Never>()
-    // Expose the subject as AnyPublisher
     var dataPublisher: AnyPublisher<LoggerStatus, Never>{
         return dataSubject.eraseToAnyPublisher()
 
@@ -40,8 +38,8 @@ final class LaunchViewModel:LaunchViewModelProtocol, ObservableObject{
                 switch completion {
                 case .failure(let error):
                     Logger.error("Error is \(error.localizedDescription)")
-                case .finished:
-                    Logger.debug("Finished")
+                case .finished: break
+
                 }
             }
             receiveValue: { [weak self] statusData in

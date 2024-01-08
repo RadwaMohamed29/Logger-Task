@@ -39,8 +39,8 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
                 switch completion {
                 case .failure(let error):
                     Logger.error("Error is \(error.localizedDescription)")
-                case .finished:
-                    Logger.debug("Finished")
+                case .finished: break
+                    
                 }
             }
             receiveValue: { [weak self] response in

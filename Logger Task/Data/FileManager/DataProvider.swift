@@ -17,28 +17,28 @@ class DataProvider: ObservableObject {
     // MARK: - Life Cycle
     init() {
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let notesPath = documentsPath.appendingPathComponent("Loges").appendingPathExtension("txt")
-        dataSourceURL = notesPath
+        let filePath = documentsPath.appendingPathComponent("Loges").appendingPathExtension("txt")
+        dataSourceURL = filePath
        
     }
     
     // MARK: - Methods
     
-    private func saveNotes() {
+    private func saveLogs() {
         
         do {
             let encoder = PropertyListEncoder()
             let data = try encoder.encode(allLoges)
             try data.write(to: dataSourceURL)
         } catch {
-            
+            Logger.error("Faild to save loges!")
         }
     }
     
-    func create(note: LoggerContext) {
-        allLoges.insert(note, at: 0)
-        saveNotes()
-        Swift.print("path: \(dataSourceURL)")
+    func create(log: LoggerContext) {
+        allLoges.insert(log, at: 0)
+        saveLogs()
+        Logger.info("File Path: \(dataSourceURL)")
     }
     
     func filePath() -> URL{
@@ -48,9 +48,8 @@ class DataProvider: ObservableObject {
     func delete() {
         do {
             try FileManager.default.removeItem(at: dataSourceURL)
-            print("Successfully deleted file!")
         } catch {
-            print("Error deleting file: \(error)")
+            Logger.error("Error deleting file: \(error)")
         }
     }
     

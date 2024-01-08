@@ -37,15 +37,14 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
         repository.uploadFile(fileURL: DataProvider.shared.filePath(), endPoint: .saveLoggerData , responseType: BaseModel.self)
             .sink { completion in
                 switch completion {
-                case .failure(let err):
-                    print("Error is \(err.localizedDescription)")
+                case .failure(let error):
+                    Logger.error("Error is \(error.localizedDescription)")
                 case .finished:
-                    print("Finished")
+                    Logger.debug("Finished")
                 }
             }
             receiveValue: { [weak self] response in
                 self?.dataSubject.send(response)
-                print("Done \(response)")
             }
             .store(in: &cancellables)
         }

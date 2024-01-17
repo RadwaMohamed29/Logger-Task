@@ -10,5 +10,5 @@ import Foundation
 struct ApiHelper {
     
     /// API Base URL
-    static let baseURL = "http://localhost:3002"
+    static let baseURL = "http://localhost:3001"
 }

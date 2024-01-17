@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
             Timer.scheduledTimer(timeInterval: 3600.0, target: self, selector: #selector(sayHello), userInfo: nil, repeats: true)
         }else{
             floatingButton.isHidden = true
-            DataProvider.shared.delete()
+            Logger.shared.delete()
         }
     }
     
@@ -60,19 +60,22 @@ class HomeViewController: UIViewController {
     //MARK: - Logs will be synced with the server every 1 hour.
     @objc func sayHello()
     {
-        Logger.info("saved every 1 hour")
+        logInfo("saved every 1 hour")
+       // Logger.info()
         viewModel?.uploadFile()
     }
  
     //MARK: - Users can force sync the logs through a floating button
     @objc private func didTapButton(){
-        Logger.info("Floating Button")
+        logInfo("Floating Button")
+       // Logger.info()
         viewModel?.uploadFile()
     }
     
     private func bindViewModel() {
             viewModel?.dataPublisher
                 .sink { data in
+                //    Swift.print(data)
                 }
                 .store(in: &subscriptions)
         }

@@ -7,49 +7,54 @@
 
 import Foundation
 
-class DataProvider: ObservableObject {
+class DataProvider {
     
     // MARK: - Propeties
-    static let shared = DataProvider()
-    private let dataSourceURL: URL
+
     private var allLoges = [LoggerContext]()
-    
-    // MARK: - Life Cycle
-    init() {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = documentsPath.appendingPathComponent("Loges").appendingPathExtension("txt")
-        dataSourceURL = filePath
-       
-    }
+   
+
     
     // MARK: - Methods
     
     private func saveLogs() {
-        
+        /* //writing
+         do {
+             try text.write(to: fileURL, atomically: false, encoding: .utf8)
+         }
+         catch {/* error handling here */}*/
+        guard let filePath = filePath()else{return}
         do {
             let encoder = PropertyListEncoder()
             let data = try encoder.encode(allLoges)
-            try data.write(to: dataSourceURL)
+            try data.write(to: filePath)
         } catch {
-            Logger.error("Faild to save loges!")
+            logError("Faild to save loges!")
         }
     }
     
-    func create(log: LoggerContext) {
-        allLoges.insert(log, at: 0)
+    func create(log: String) {
+        
+      //  allLoges.insert(log, at: 0)
         saveLogs()
-        NSLog("path: \(dataSourceURL)")
+        guard let filePath = filePath()else{return}
+        NSLog("path: \(filePath)")
     }
     
-    func filePath() -> URL{
-        return dataSourceURL
+    func filePath() -> URL?{
+        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else{ return nil}
+            let filePath = documentsPath.appendingPathComponent("Loges").appendingPathExtension("txt")
+          //  dataSourceURL = filePath
+        
+        return filePath
     }
     
     func delete() {
+        guard let filePath = filePath()else{return}
         do {
-            try FileManager.default.removeItem(at: dataSourceURL)
+            try FileManager.default.removeItem(at: filePath)
         } catch {
-            Logger.error("Error deleting file: \(error)")
+            logError("Error deleting file: \(error)")
         }
     }
     

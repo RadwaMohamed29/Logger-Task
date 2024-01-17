@@ -34,7 +34,7 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
 
     }
     func uploadFile() {
-        repository.uploadFile(fileURL: DataProvider.shared.filePath(), endPoint: .saveLoggerData , responseType: BaseModel.self)
+        repository.uploadFile(fileURL: URL(filePath: " DataProvider.shared.filePath()"), endPoint: .saveLoggerData , responseType: BaseModel.self)
             .sink { completion in
                 switch completion {
                 case .failure(let error):

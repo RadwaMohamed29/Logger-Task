@@ -25,36 +25,51 @@ enum LogLevel: String {
 
 class Logger{
     
+    static let shared = Logger()
+    var dataProvider: DataProvider
+    
+    init(dataProvider: DataProvider = DataProvider()) {
+        self.dataProvider = dataProvider
+    }
+
     // MARK: - Info
-    static func info(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function)  {
-        let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: checkApplicationState(), className: "\(self)", file: sourceFileName(filePath: filename), line: line, funcName: funcName)
-        Logger.handleLog(level: .info,  context: context)
+     func info(_ message: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function)  {
+         let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: message, appState: Logger.checkApplicationState(), className: "\(self)", file: Logger.sourceFileName(filePath: filename), line: line, funcName: funcName)
+        
+        handleLog(level: .info,  context: context)
     }
     
     // MARK: - Debug
-    static func debug(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
-        let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: checkApplicationState(), className: "\(self)", file: filename, line: line, funcName: funcName)
-        Logger.handleLog(level: .debug,  context: context)
+     func debug(_ message: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
+         let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: message, appState: Logger.checkApplicationState(), className: "\(self)", file: filename, line: line, funcName: funcName)
+        
+        handleLog(level: .debug,  context: context)
     }
     
     // MARK: - Error
-    static func error(_ str: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
-        let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: str, appState: checkApplicationState(), className: "\(self)", file: sourceFileName(filePath: filename), line: line, funcName: funcName)
-        Logger.handleLog(level: .error,  context: context)
+     func error(_ message: String, filename: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
+         let context = LoggerContext(isMainThread: Thread.isMainThread, date: Date().toString(), message: message, appState: Logger.checkApplicationState(), className: "\(self)", file: Logger.sourceFileName(filePath: filename), line: line, funcName: funcName)
+       handleLog(level: .error,  context: context)
     }
-    
+
     /// A Custom Logger Handle Print  logging data in debug mode only
-    private static func handleLog(level: LogLevel, context: LoggerContext){
-        let logComponents = ["\(level.prefix) "]
-        var fullString = logComponents.joined(separator: " ")
-        DataProvider.shared.create(log: context)
+    private func handleLog(level: LogLevel, context: LoggerContext){
+        var logComponents = "\(level.prefix) "
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        let fullString = "[MainThread:\(context.isMainThread)] " + "[\(context.date)] " + "[AppState: \(context.appState)] " + "[ClassName:\(self)] " + "[FileName: \(context.file)] " + "[Line: \(context.line)] " + "[FuncName:\(context.funcName)]" + " ->\(context.message)"
+
+        logComponents.append(contentsOf: fullString )
         
-        fullString += "[MainThread:\(context.isMainThread)] " + "[\(context.date)] " + "[AppState: \(context.appState)] " + "[ClassName:\(self)] " + "[FileName: \(context.file)] " + "[Line: \(context.line)] " + "[FuncName:\(context.funcName)]" + " ->\(context.message)"
+        dataProvider.create(log: logComponents)
 #if DEBUG
-        Swift.print(fullString)
+        Swift.print(logComponents)
 #endif
     }
     
+    @objc func appWillEnterForeground() {
+          print("App will enter foreground")
+          // Add your code here for actions to be taken when the app enters foreground
+      }
     private class func checkApplicationState() -> String{
         let appState = UIApplication.shared.applicationState
         
@@ -77,10 +92,29 @@ class Logger{
     }
     
     
-    static func setRequiredLevel(level: LogLevel) {
-        
+
+
+}
+extension Logger{
+    func deleteLog(){
+        dataProvider.delete()
+    }
+    
+    func saveLog(log: String){
+        dataProvider.create(log: log)
     }
     
 }
 
 
+
+//MARK: - Public Method
+public func logInfo(_ message: String){
+    Logger.shared.info(message)
+}
+public func logDebuge(_ message: String){
+    Logger.shared.debug(message)
+}
+public func logError(_ message: String){
+    Logger.shared.error(message)
+}

@@ -37,7 +37,7 @@ final class LaunchViewModel:LaunchViewModelProtocol, ObservableObject{
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    Logger.error("Error is \(error.localizedDescription)")
+                    logError("Error is \(error.localizedDescription)")
                 case .finished: break
 
                 }

@@ -9,42 +9,37 @@ import Foundation
 
 class DataProvider {
     
-    // MARK: - Propeties
-
-    private var allLoges = [LoggerContext]()
-   
-
-    
     // MARK: - Methods
     
-    private func saveLogs() {
-        /* //writing
-         do {
-             try text.write(to: fileURL, atomically: false, encoding: .utf8)
-         }
-         catch {/* error handling here */}*/
+    func create(log: String) {
         guard let filePath = filePath()else{return}
         do {
-            let encoder = PropertyListEncoder()
-            let data = try encoder.encode(allLoges)
-            try data.write(to: filePath)
+            // Open the file in append mode
+            let fileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: filePath.path))
+            
+            // Move to the end of the file
+            fileHandle.seekToEndOfFile()
+            
+            // Convert the string to data and write it to the file
+            let newData = log + "\n \n"
+            if let data = newData.data(using: .utf8) {
+                fileHandle.write(data)
+            }
+            
+            // Close the file handle
+            fileHandle.closeFile()
         } catch {
+            // Handle the error
             logError("Faild to save loges!")
         }
-    }
-    
-    func create(log: String) {
         
-      //  allLoges.insert(log, at: 0)
-        saveLogs()
-        guard let filePath = filePath()else{return}
         NSLog("path: \(filePath)")
     }
     
+    
     func filePath() -> URL?{
         guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else{ return nil}
-            let filePath = documentsPath.appendingPathComponent("Loges").appendingPathExtension("txt")
-          //  dataSourceURL = filePath
+        let filePath = documentsPath.appendingPathComponent("Loges").appendingPathExtension("txt")
         
         return filePath
     }

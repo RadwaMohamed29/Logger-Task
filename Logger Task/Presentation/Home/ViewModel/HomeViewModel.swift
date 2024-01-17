@@ -34,11 +34,12 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
 
     }
     func uploadFile() {
-        repository.uploadFile(fileURL: URL(filePath: " DataProvider.shared.filePath()"), endPoint: .saveLoggerData , responseType: BaseModel.self)
+        guard let filePath = Logger.shared.filePath() else{return}
+        repository.uploadFile(fileURL: filePath, endPoint: .saveLoggerData , responseType: BaseModel.self)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    Logger.error("Error is \(error.localizedDescription)")
+                    logError("Error is \(error.localizedDescription)")
                 case .finished: break
                     
                 }

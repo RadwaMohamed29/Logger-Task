@@ -13,6 +13,11 @@ struct LoggerStatus: Codable {
     
     enum CodingKeys: String, CodingKey {
         case status 
-        
     }
+}
+
+
+struct BaseModel: Codable{
+    let success: Bool?
+    
 }

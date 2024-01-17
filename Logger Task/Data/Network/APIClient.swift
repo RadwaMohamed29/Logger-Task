@@ -81,7 +81,7 @@ final class APIClient: APIClientProtocol {
     
     private func createMultipartRequest(endPoint: ApiEndpoint, fileURL: URL) -> URLRequest? {
         guard let url = URL(string: ( ApiHelper.baseURL.appending(endPoint.path))) else {
-            Logger.error("\(ApiError.invalidPath)")
+            logError("\(ApiError.invalidPath)")
             return nil
         }
         var request = URLRequest(url: url )

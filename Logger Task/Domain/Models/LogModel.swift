@@ -20,7 +20,7 @@ struct LoggerContext: Codable{
     
     var fullString: String{
       
-        return  "[MainThread:\(Thread.isMainThread)] " + "[\( Date().toString())] " + "[AppState: \(UIApplication.willEnterForegroundNotification)] " + "[ClassName:\(className)] " + "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
+        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[AppState: \(UIApplication.willEnterForegroundNotification)] " + "[ClassName:\(className)] " + "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
     }
     
 }

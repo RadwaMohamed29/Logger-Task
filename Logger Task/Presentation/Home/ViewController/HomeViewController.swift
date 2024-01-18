@@ -21,40 +21,37 @@ class HomeViewController: UIViewController {
         }
     }
     var loggerStatus: Bool = true
-    private let floatingButton: UIButton = {
-       let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
-        button.backgroundColor = .systemIndigo
-        let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .medium))
-        button.setImage(image, for: .normal)
-        button.tintColor = .white
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 30
-        return button
-    }()
+    //    var floatingButton: CustomFloatingButton = {
+    //         let button = CustomFloatingButton(type: .custom)
+    //
+    //         return button
+    //     }()
+   // let customButton = AppDelegate.shared.getCustomButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-        view.addSubview(floatingButton)
         viewModel = HomeViewModel()
         
-        floatingButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+//        if let customButton = customButton {
+//            customButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+//        } else {
+//            print("Custom button is nil")
+//        }
+            /// hide floating button when Logger disabled
+//            if loggerStatus{
+//                customButton.isHidden = false
+//                Timer.scheduledTimer(timeInterval: 3600.0, target: self, selector: #selector(sayHello), userInfo: nil, repeats: true)
+//            }else{
+//                customButton.isHidden = true
+//                Logger.shared.deleteLog()
+//            }
+            
         
-        /// hide floating button when Logger disabled
-        if loggerStatus{
-            floatingButton.isHidden = false
-            Timer.scheduledTimer(timeInterval: 3600.0, target: self, selector: #selector(sayHello), userInfo: nil, repeats: true)
-        }else{
-            floatingButton.isHidden = true
-            Logger.shared.deleteLog()
-        }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        floatingButton.frame = CGRect(x: view.frame.size.width - 70,
-                                      y: view.frame.size.height - 100,
-                                      width: 60,
-                                      height: 60)
+        
+        
+        
+        
     }
     
     //MARK: - Logs will be synced with the server every 1 hour.
@@ -63,7 +60,7 @@ class HomeViewController: UIViewController {
         logInfo("saved every 1 hour")
         viewModel?.uploadFile()
     }
- 
+    
     //MARK: - Users can force sync the logs through a floating button
     @objc private func didTapButton(){
         logInfo("Floating Button")
@@ -71,10 +68,10 @@ class HomeViewController: UIViewController {
     }
     
     private func bindViewModel() {
-            viewModel?.dataPublisher
-                .sink { data in
+        viewModel?.dataPublisher
+            .sink { data in
                 //    Swift.print(data)
-                }
-                .store(in: &subscriptions)
-        }
+            }
+            .store(in: &subscriptions)
+    }
 }

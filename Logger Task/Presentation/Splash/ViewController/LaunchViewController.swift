@@ -29,8 +29,8 @@ class LaunchViewController: UIViewController {
         viewModel = LaunchViewModel()
         viewModel?.getLoggerStatus()
         
-//         let customButton = AppDelegate.shared.getCustomButton()
-//         customButton.isHidden = false
+         let customButton = AppDelegate.shared.getCustomButton()
+         customButton.isHidden = true
  
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in

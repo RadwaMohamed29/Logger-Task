@@ -14,22 +14,19 @@ class DataProvider {
     func create(log: String) {
         guard let filePath = filePath()else{return}
         do {
-            // Open the file in append mode
-            let fileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: filePath.path))
+            let message = "Logger Data \n \n"
+            try message.write(to: filePath, atomically: true, encoding: .utf8)
             
+            let fileHandle = try FileHandle(forWritingTo: filePath)
             // Move to the end of the file
             fileHandle.seekToEndOfFile()
-            
-            // Convert the string to data and write it to the file
             let newData = log + "\n \n"
             if let data = newData.data(using: .utf8) {
                 fileHandle.write(data)
             }
-            
-            // Close the file handle
             fileHandle.closeFile()
+            
         } catch {
-            // Handle the error
             logError("Faild to save loges!")
         }
         

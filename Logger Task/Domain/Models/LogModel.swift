@@ -9,18 +9,14 @@ import Foundation
 import UIKit
 
 struct LoggerContext: Codable{
- //   let isMainThread: Bool
-  //  let date: String
     let message: String
-  //  let appState: String
-    let className: String
     let file: String
     let line: Int
     let funcName: String
-    
+    var appState: String?
     var fullString: String{
       
-        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[AppState: \(UIApplication.willEnterForegroundNotification)] " + "[ClassName:\(className)] " + "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
+        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[AppWillEnterForeground: \(String(describing: appState))] " +  "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
     }
     
 }

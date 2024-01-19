@@ -14,8 +14,8 @@ class DataProvider {
     func create(log: String) {
         guard let filePath = filePath()else{return}
         do {
-            let message = "Logger Data \n \n"
-            try message.write(to: filePath, atomically: true, encoding: .utf8)
+//            let message = "Logger Data \n \n"
+//            try message.write(to: filePath, atomically: true, encoding: .utf8)
             
             let fileHandle = try FileHandle(forWritingTo: filePath)
             // Move to the end of the file

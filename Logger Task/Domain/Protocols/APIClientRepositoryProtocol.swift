@@ -9,5 +9,6 @@ import Foundation
 import Combine
 
 protocol APIClientRepositoryProtocol {
-    func getLoggerStatus<T: Decodable>(endpoint: ApiEndpoint, type: T.Type) -> Future<T, Error>
-    func uploadFile<T: Decodable>(fileURL: URL, endPoint: ApiEndpoint, responseType: T.Type) -> AnyPublisher<T, Error>}
+    func getLoggerStatus<T: Decodable>(endpoint: ApiEndpoint, type: T.Type) -> AnyPublisher<T, Error>
+    func uploadFile<T: Decodable>(fileURL: URL, endPoint: ApiEndpoint, responseType: T.Type) -> AnyPublisher<T, Error>
+}

@@ -16,7 +16,7 @@ protocol LaunchViewModelProtocol{
 
 
 // MARK: - LaunchViewModel -
-final class LaunchViewModel:LaunchViewModelProtocol, ObservableObject{
+class LaunchViewModel:LaunchViewModelProtocol, ObservableObject{
 
     // MARK: - Properties -
     var repository: APIClientRepositoryProtocol

@@ -9,8 +9,7 @@ import Foundation
 import Combine
 
 // MARK: - APIClientRepository -
-final class APIClientRepository: APIClientRepositoryProtocol {
-    
+class APIClientRepository: APIClientRepositoryProtocol {
     // MARK: - Properties -
     private var apiClient: APIClientProtocol
     
@@ -20,9 +19,11 @@ final class APIClientRepository: APIClientRepositoryProtocol {
     }
     
     // MARK: - Functions -
-    func getLoggerStatus<T>(endpoint: ApiEndpoint, type: T.Type) -> Future<T, Error> where T : Decodable {
+    
+    func getLoggerStatus<T>(endpoint: ApiEndpoint, type: T.Type) -> AnyPublisher<T, Error> where T : Decodable {
         apiClient.getLoggerStatus(endpoint: endpoint, type: type)
     }
+
     func uploadFile<T: Decodable>(fileURL: URL, endPoint: ApiEndpoint, responseType: T.Type) -> AnyPublisher<T, Error> {
         apiClient.uploadFile(fileURL: fileURL, endPoint: endPoint, responseType: responseType)
     }

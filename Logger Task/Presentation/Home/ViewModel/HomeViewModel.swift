@@ -15,7 +15,7 @@ protocol HomeViewModelProtocol{
 
 
 // MARK: - HomeViewModel -
-final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
+class HomeViewModel:HomeViewModelProtocol, ObservableObject{
 
     // MARK: - Properties -
     var repository: APIClientRepositoryProtocol
@@ -26,9 +26,7 @@ final class HomeViewModel:HomeViewModelProtocol, ObservableObject{
     }
     @Published var context:BaseModel?
     private var cancellables = Set<AnyCancellable>()
-    // custom PassthroughSubject
     private let dataSubject = PassthroughSubject<BaseModel, Never>()
-    // Expose the subject as AnyPublisher
     var dataPublisher: AnyPublisher<BaseModel, Never>{
         return dataSubject.eraseToAnyPublisher()
 

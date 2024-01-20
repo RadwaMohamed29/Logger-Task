@@ -16,8 +16,7 @@ class CustomFloatingButton: UIButton{
       }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpFloatingButton()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setUpFloatingButton(){

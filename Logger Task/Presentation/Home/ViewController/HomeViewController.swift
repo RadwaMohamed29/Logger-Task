@@ -9,11 +9,6 @@ import UIKit
 import Combine
 
 class HomeViewController: UIViewController {
-    public class func buildVC() -> HomeViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        return storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-    }
-    
     private var subscriptions = Set<AnyCancellable>()
     private var viewModel: HomeViewModelProtocol?{
         didSet{
@@ -57,7 +52,6 @@ class HomeViewController: UIViewController {
     private func bindViewModel() {
         viewModel?.dataPublisher
             .sink { data in
-                //    Swift.print(data)
             }
             .store(in: &subscriptions)
     }

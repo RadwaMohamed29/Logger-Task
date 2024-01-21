@@ -32,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func goToSplash() {
-        let navigationController = UINavigationController(rootViewController: LaunchViewController.buildVC())
+        let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LaunchViewController") as! LaunchViewController
+        let navigationController = UINavigationController(rootViewController: storyboard)
         navigationController.navigationBar.isHidden = true
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController

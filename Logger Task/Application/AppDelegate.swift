@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+        Logger.shared.setRequired(.info)
         
         floatingButton.frame = CGRect(x: UIScreen.main.bounds.width - 70,
                                       y: UIScreen.main.bounds.height - 100,

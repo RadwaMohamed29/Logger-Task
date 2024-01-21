@@ -8,24 +8,15 @@
 import Foundation
 import UIKit
 
-struct LoggerContext: Codable{
+struct LoggerContext{
     let message: String
     let file: String
     let line: Int
     let funcName: String
-    var appState: String?
+    var appState: Bool = false
     var fullString: String{
       
-        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[AppWillEnterForeground: \(String(describing: appState))] " +  "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
+        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[AppWillEnterForeground: \(appState)] " +  "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
     }
     
 }
-
-// NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-/**
- @objc func appWillEnterForeground() {
-     print("App will enter foreground")
-     // Add your code here for actions to be taken when the app enters foreground
- }
-
- */

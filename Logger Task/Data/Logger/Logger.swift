@@ -26,39 +26,61 @@ enum LogLevel: String {
 class Logger{
     
     static let shared = Logger()
-    var dataProvider: DataProvider
-    private var appState: String = "False"
-    init(dataProvider: DataProvider = DataProvider()) {
+    private var dataProvider: DataProvider
+    private var appState: Bool = false
+    private var requiredLog: LogLevel = .debug
+    
+    private init(dataProvider: DataProvider = DataProvider()) {
         self.dataProvider = dataProvider
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAppStateChange), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc private func handleAppStateChange() {
+        appState = true
+    }
+    
+    func setRequired(_ log:LogLevel){
+        requiredLog = log
     }
     
     /// A Custom Logger Handle Print  logging data in debug mode only
     func handleLog(level: LogLevel, context: LoggerContext){
+        print(appState)
         var logComponents = "\(level.prefix) "
-        
-        //        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.didFinishLaunchingNotification, object: nil)
-        
         guard let url = URL(string: context.file) else{return}
-        var context = LoggerContext(message: context.message, file: url.lastPathComponent, line: context.line, funcName: context.funcName)
-        context.appState = appState
+        let context = LoggerContext(message: context.message, file: url.lastPathComponent, line: context.line, funcName: context.funcName, appState: appState)
+        
         logComponents += context.fullString
         
-        dataProvider.create(log: logComponents)
+        /// Logs Data according on the required levelLog
+        switch requiredLog {
+        case .info:
+            if level == .error || level == .info{
+                dataProvider.create(log: logComponents)
 #if DEBUG
-        Swift.print(logComponents)
+                Swift.print(logComponents)
 #endif
+            }
+        case .debug:
+            dataProvider.create(log: logComponents)
+#if DEBUG
+            Swift.print(logComponents)
+#endif
+        case .error:
+            if level == .error{
+                dataProvider.create(log: logComponents)
+#if DEBUG
+                Swift.print(logComponents)
+#endif
+            }
+        }
+        
     }
     
-    //    @objc func appWillEnterForeground() {
-    //       appState = "True"
-    //    }
-    
-    func setRequired(_ log:LogLevel ){
-       
-    }
-    
+   
 }
 
+/// deal with data provider methods from logger class
 extension Logger{
     func deleteLog(){
         dataProvider.delete()
@@ -76,7 +98,7 @@ extension Logger{
 
 
 
-//MARK: - Public Method
+//MARK: - Public Logger Method
 public func logInfo(_ message: String, filename: String = #file, line: Int = #line, funcName: String = #function){
     let context = LoggerContext(message: message, file: filename, line: line, funcName: funcName)
     Logger.shared.handleLog(level: .info,  context: context)

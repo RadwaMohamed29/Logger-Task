@@ -11,7 +11,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window:UIWindow?
-    private let floatingButton = CustomFloatingButton(type: .custom)
+     
     static var shared: AppDelegate {
           return UIApplication.shared.delegate as! AppDelegate
       }
@@ -19,11 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Logger.shared.setRequired(.info)
-        
-        floatingButton.frame = CGRect(x: UIScreen.main.bounds.width - 70,
-                                      y: UIScreen.main.bounds.height - 100,
-                                      width: 60,
-                                      height: 60)
+        let floatingButton = CustomFloatingButton()
         goToSplash()
         window?.addSubview(floatingButton)
         
@@ -32,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func goToSplash() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LaunchViewController") as! LaunchViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
         let navigationController = UINavigationController(rootViewController: storyboard)
         navigationController.navigationBar.isHidden = true
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -40,8 +36,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
     }
     
-      func getCustomButton() -> CustomFloatingButton{
-          return floatingButton
-      }
 }
 

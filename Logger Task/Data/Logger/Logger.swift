@@ -27,28 +27,35 @@ class Logger{
     
     static let shared = Logger()
     private var dataProvider: DataProvider
-    private var appState: Bool = false
+    private var isInBackground:Bool = false
     private var requiredLog: LogLevel = .debug
     
     private init(dataProvider: DataProvider = DataProvider()) {
         self.dataProvider = dataProvider
-        NotificationCenter.default.addObserver(self, selector: #selector(handleAppStateChange), name: UIApplication.willEnterForegroundNotification, object: nil)
+       
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+               
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
-    @objc private func handleAppStateChange() {
-        appState = true
+    @objc func willEnterForeground() {
+        isInBackground = false
+    }
+
+    @objc func didEnterBackground() {
+        isInBackground = true
     }
     
     func setRequired(_ log:LogLevel){
         requiredLog = log
     }
-    
+   
     /// A Custom Logger Handle Print  logging data in debug mode only
     func handleLog(level: LogLevel, context: LoggerContext){
-        print(appState)
+    //    print(appState)
         var logComponents = "\(level.prefix) "
         guard let url = URL(string: context.file) else{return}
-        let context = LoggerContext(message: context.message, file: url.lastPathComponent, line: context.line, funcName: context.funcName, appState: appState)
+        let context = LoggerContext(message: context.message, file: url.lastPathComponent, line: context.line, funcName: context.funcName, appState: isInBackground)
         
         logComponents += context.fullString
         

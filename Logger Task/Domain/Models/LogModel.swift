@@ -16,7 +16,7 @@ struct LoggerContext{
     var appState: Bool = false
     var fullString: String{
       
-        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[AppWillEnterForeground: \(appState)] " +  "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
+        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[InBackground: \(appState)] " +  "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
     }
     
 }

@@ -28,7 +28,7 @@ class DataProvider {
             fileHandle.closeFile()
             
         } catch {
-            logError("Faild to save loges!")
+            NSLog("Faild to save loges!")
         }
         
         NSLog("path: \(filePath)")

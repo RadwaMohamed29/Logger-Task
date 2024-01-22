@@ -65,12 +65,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		160AB0CF2B59283E00C08880 /* Domain */ = {
+		160AB0CF2B59283E00C08880 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				160AB0D02B59286B00C08880 /* CustomFloatingButton.swift */,
 			);
-			path = Domain;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		16B72CB72B468BAD006FE6F1 /* Extensions */ = {
@@ -206,7 +206,7 @@
 		16BD7FB22B3E29C600B28D77 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				160AB0CF2B59283E00C08880 /* Domain */,
+				160AB0CF2B59283E00C08880 /* Utilities */,
 				16B72CB72B468BAD006FE6F1 /* Extensions */,
 				16DB67ED2B4223DD00263877 /* Protocols */,
 				16BD7FB32B3E29CC00B28D77 /* Models */,

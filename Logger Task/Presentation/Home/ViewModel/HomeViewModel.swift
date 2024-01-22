@@ -9,8 +9,13 @@ import Foundation
 import Combine
 
 protocol HomeViewModelProtocol{
+    var loggerStatus: LoggerStatus? {get set}
     func uploadFile()
-    var dataPublisher: AnyPublisher<BaseModel, Never>{get}
+    func getLoggerStatus()
+//    var dataPublisher: AnyPublisher<LoggerStatus, Never>{get}
+    var myDataPublisher: Published<LoggerStatus?>.Publisher { get }
+
+
 }
 
 
@@ -24,13 +29,11 @@ class HomeViewModel:HomeViewModelProtocol, ObservableObject{
     init(repository: APIClientRepositoryProtocol = APIClientRepository()) {
         self.repository = repository
     }
-    @Published var context:BaseModel?
-    private var cancellables = Set<AnyCancellable>()
-    private let dataSubject = PassthroughSubject<BaseModel, Never>()
-    var dataPublisher: AnyPublisher<BaseModel, Never>{
-        return dataSubject.eraseToAnyPublisher()
-
-    }
+        @Published var loggerStatus:LoggerStatus?
+        private var cancellables = Set<AnyCancellable>()
+        var myDataPublisher: Published<LoggerStatus?>.Publisher {
+            $loggerStatus
+        }
     func uploadFile() {
         guard let filePath = Logger.shared.filePath() else{return}
         repository.uploadFile(fileURL: filePath, endPoint: .saveLoggerData , responseType: BaseModel.self)
@@ -42,9 +45,26 @@ class HomeViewModel:HomeViewModelProtocol, ObservableObject{
                     
                 }
             }
-            receiveValue: { [weak self] response in
-                self?.dataSubject.send(response)
+            receiveValue: {  response in
             }
             .store(in: &cancellables)
         }
+    
+        func getLoggerStatus() {
+            repository.getLoggerStatus(endpoint: .getLoggerStatus, type: LoggerStatus.self)
+                .sink { completion in
+                    switch completion {
+                    case .failure(let error):
+                        logError("Error is \(error.localizedDescription)")
+                    case .finished: break
+    
+                    }
+                }
+                receiveValue: { [weak self] statusData in
+                    self?.loggerStatus = statusData
+                    
+                }
+                .store(in: &cancellables)
+            
+            }
 }

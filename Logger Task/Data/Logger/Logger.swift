@@ -32,16 +32,16 @@ class Logger{
     
     private init(dataProvider: DataProvider = DataProvider()) {
         self.dataProvider = dataProvider
-       
+        
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-               
+        
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     @objc func willEnterForeground() {
         isInBackground = false
     }
-
+    
     @objc func didEnterBackground() {
         isInBackground = true
     }
@@ -49,42 +49,36 @@ class Logger{
     func setRequired(_ log:LogLevel){
         requiredLog = log
     }
-   
+    
     /// A Custom Logger Handle Print  logging data in debug mode only
     func handleLog(level: LogLevel, context: LoggerContext){
-    //    print(appState)
         var logComponents = "\(level.prefix) "
-        guard let url = URL(string: context.file) else{return}
-        let context = LoggerContext(message: context.message, file: url.lastPathComponent, line: context.line, funcName: context.funcName, appState: isInBackground)
-        
         logComponents += context.fullString
         
         /// Logs Data according on the required levelLog
         switch requiredLog {
         case .info:
             if level == .error || level == .info{
-                dataProvider.create(log: logComponents)
-#if DEBUG
-                Swift.print(logComponents)
-#endif
+                shouldLog(log: logComponents)
             }
         case .debug:
-            dataProvider.create(log: logComponents)
-#if DEBUG
-            Swift.print(logComponents)
-#endif
+            shouldLog(log: logComponents)
+            
         case .error:
             if level == .error{
-                dataProvider.create(log: logComponents)
-#if DEBUG
-                Swift.print(logComponents)
-#endif
+                shouldLog(log: logComponents)
             }
         }
+    }
+    
+    private func shouldLog(log: String) {
+        dataProvider.create(log: log)
+#if DEBUG
+        Swift.print(log)
+#endif
         
     }
     
-   
 }
 
 /// deal with data provider methods from logger class

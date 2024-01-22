@@ -12,7 +12,6 @@ protocol HomeViewModelProtocol{
     var loggerStatus: LoggerStatus? {get set}
     func uploadFile()
     func getLoggerStatus()
-//    var dataPublisher: AnyPublisher<LoggerStatus, Never>{get}
     var myDataPublisher: Published<LoggerStatus?>.Publisher { get }
 
 
@@ -46,6 +45,7 @@ class HomeViewModel:HomeViewModelProtocol, ObservableObject{
                 }
             }
             receiveValue: {  response in
+                print("response \(response.success)")
             }
             .store(in: &cancellables)
         }

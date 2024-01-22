@@ -15,8 +15,19 @@ struct LoggerContext{
     let funcName: String
     var appState: Bool = false
     var fullString: String{
-      
-        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[InBackground: \(appState)] " +  "[FileName: \(file)] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
+        
+        return  "[MainThread:\(Thread.isMainThread)] " + "[\(Date().toString())] " + "[InBackground: \(appState)] " +  "[FileName: \(getLastPath(urlString: file))] " + "[Line: \(line)] " + "[FuncName:\(funcName)]" + " ->\(message)"
+    }
+    
+    
+    
+    
+    func getLastPath(urlString: String) -> String {
+        if let url = URL(string: urlString) {
+            return url.lastPathComponent
+        } else {
+            return "Invalid"
+        }
     }
     
 }

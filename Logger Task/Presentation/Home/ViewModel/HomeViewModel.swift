@@ -45,7 +45,6 @@ class HomeViewModel:HomeViewModelProtocol, ObservableObject{
                 }
             }
             receiveValue: {  response in
-                print("response \(response.success)")
             }
             .store(in: &cancellables)
         }
